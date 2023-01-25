@@ -1,0 +1,21 @@
+{
+  "id": "PubSub-eb00fs0",
+  "name": "PubSub",
+  "type": "altostra",
+  "description": "An empty project template",
+  "created": "2023-01-25T19:41:34.157Z",
+  "blueprints": [
+    {
+      "version": "2019-10-24",
+      "connections": {},
+      "resources": {},
+      "metadata": {
+        "designer": {
+          "resourcePositions": {}
+        }
+      },
+      "id": "PubSub-eb00fs0",
+      "name": "PubSub"
+    }
+  ]
+}
