@@ -1,21 +1,214 @@
 {
-  "id": "PubSub-eb00fs0",
-  "name": "PubSub",
-  "type": "altostra",
-  "description": "An empty project template",
-  "created": "2023-01-25T19:41:34.157Z",
-  "blueprints": [
-    {
-      "version": "2019-10-24",
-      "connections": {},
-      "resources": {},
-      "metadata": {
-        "designer": {
-          "resourcePositions": {}
-        }
-      },
-      "id": "PubSub-eb00fs0",
-      "name": "PubSub"
-    }
-  ]
+	"id": "PubSub-eb00fs0",
+	"name": "PubSub",
+	"type": "altostra",
+	"description": "An empty project template",
+	"created": "2023-01-25T19:41:34.157Z",
+	"blueprints": [
+		{
+			"version": "2019-10-24",
+			"connections": {
+				"ApiEndpoint01": {
+					"Publisher01": {
+						"type": "connection.trigger",
+						"from": "ApiEndpoint01",
+						"to": "Publisher01"
+					}
+				},
+				"Publisher01": {
+					"Topic01": {
+						"type": "connection.resource-access",
+						"accessLevel": "write-only",
+						"from": "Publisher01",
+						"to": "Topic01"
+					}
+				},
+				"Topic01": {
+					"Subscriber01": {
+						"type": "connection.topic-subscription",
+						"from": "Topic01",
+						"to": "Subscriber01"
+					},
+					"Subscriber02": {
+						"type": "connection.topic-subscription",
+						"from": "Topic01",
+						"to": "Subscriber02"
+					}
+				},
+				"Subscriber01": {
+					"Table01": {
+						"type": "connection.resource-access",
+						"accessLevel": "read-write",
+						"from": "Subscriber01",
+						"to": "Table01"
+					}
+				},
+				"Publisher02": {
+					"Topic01": {
+						"type": "connection.resource-access",
+						"accessLevel": "write-only",
+						"from": "Publisher02",
+						"to": "Topic01"
+					}
+				}
+			},
+			"resources": {
+				"ApiGateway01": {
+					"type": "resource.api",
+					"name": "ApiGateway01",
+					"cors": {
+						"type": "api.cors.none"
+					},
+					"endpoints": [
+						{
+							"type": "ref",
+							"id": "ApiEndpoint01"
+						}
+					],
+					"id": "ApiGateway01"
+				},
+				"ApiEndpoint01": {
+					"type": "resource.api.endpoint",
+					"name": "api-endpoint",
+					"method": "POST",
+					"path": "/",
+					"api": {
+						"type": "ref",
+						"id": "ApiGateway01"
+					},
+					"id": "ApiEndpoint01"
+				},
+				"Publisher01": {
+					"type": "resource.compute.function",
+					"name": "Publisher",
+					"memory": 512,
+					"timeout": 6,
+					"isDefaultPrivateSubnets": false,
+					"isDefaultPublicSubnets": false,
+					"entryPoint": "functions/Publisher.handler",
+					"runtime": "nodejs16.x",
+					"packageType": "zip",
+					"layers": [],
+					"environment": {
+						"variables": {}
+					},
+					"id": "Publisher01"
+				},
+				"Topic01": {
+					"type": "resource.notification-topic",
+					"name": "Topic",
+					"displayName": "",
+					"topicName": "Events",
+					"id": "Topic01"
+				},
+				"Subscriber01": {
+					"type": "resource.compute.function",
+					"name": "Subscriber",
+					"memory": 512,
+					"timeout": 6,
+					"isDefaultPrivateSubnets": false,
+					"isDefaultPublicSubnets": false,
+					"entryPoint": "functions/Subscriber.handler",
+					"runtime": "nodejs16.x",
+					"packageType": "zip",
+					"layers": [],
+					"environment": {
+						"variables": {}
+					},
+					"id": "Subscriber01"
+				},
+				"Table01": {
+					"type": "resource.table",
+					"name": "Table",
+					"tableName": "",
+					"key": {
+						"hash": {
+							"name": "pk",
+							"type": "STRING"
+						}
+					},
+					"aws": {
+						"billingModel": "PAY_PER_REQUEST"
+					},
+					"id": "Table01"
+				},
+				"Subscriber02": {
+					"type": "resource.compute.function",
+					"name": "Subscriber2",
+					"memory": 512,
+					"timeout": 6,
+					"isDefaultPrivateSubnets": false,
+					"isDefaultPublicSubnets": false,
+					"entryPoint": "functions/Subscriber2.handler",
+					"runtime": "nodejs16.x",
+					"packageType": "zip",
+					"layers": [],
+					"environment": {
+						"variables": {}
+					},
+					"id": "Subscriber02"
+				},
+				"Publisher02": {
+					"type": "resource.compute.function",
+					"name": "Publisher2",
+					"memory": 512,
+					"timeout": 6,
+					"isDefaultPrivateSubnets": false,
+					"isDefaultPublicSubnets": false,
+					"entryPoint": "functions/Publisher2.handler",
+					"runtime": "nodejs16.x",
+					"packageType": "zip",
+					"layers": [],
+					"environment": {
+						"variables": {}
+					},
+					"id": "Publisher02"
+				}
+			},
+			"metadata": {
+				"designer": {
+					"resourcePositions": {
+						"ApiGateway01": {
+							"x": 279.5,
+							"y": 293.75,
+							"z": 0
+						},
+						"Publisher01": {
+							"x": 556.5,
+							"y": 324.75,
+							"z": 0
+						},
+						"Topic01": {
+							"x": 825,
+							"y": 330,
+							"z": 0
+						},
+						"Subscriber01": {
+							"x": 1048,
+							"y": 334,
+							"z": 0
+						},
+						"Table01": {
+							"x": 1265.3721618652344,
+							"y": 332.58140563964844,
+							"z": 0
+						},
+						"Subscriber02": {
+							"x": 1044.848876953125,
+							"y": 228.9767303466797,
+							"z": 0
+						},
+						"Publisher02": {
+							"x": 535.3139953613281,
+							"y": 224.7906951904297,
+							"z": 0
+						}
+					}
+				}
+			},
+			"id": "PubSub-eb00fs0",
+			"name": "PubSub",
+			"unsafe": false
+		}
+	]
 }
